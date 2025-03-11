@@ -137,7 +137,7 @@ Este archivo contiene información crucial sobre las regiones de unión de los 1
     
     -   Leer cada fila del archivo de picos.
     -   Extraer los campos `TF_name`, `Peak_start`, `Peak_end` para cada entrada.
-    -   Para cada `TF_name`, usar las posiciones `Peak_start` y `Peak_end` para extraer la secuencia correspondiente del archivo FASTA del genoma.
+    -   Para cada `TF_name`, usar las posiciones `Peak_start` y `Peak_end` para extraer la secuencia correspondiente del archivo FASTA del genoma, tomando exclusivamente la cadena forward.
 3.  **Generación de FASTA:**
     
     -   Agrupar las secuencias extraídas por `TF_name`.
@@ -175,7 +175,8 @@ Este archivo contiene información crucial sobre las regiones de unión de los 1
     -   Generar una línea de comando para ejecutar `meme` usando cada archivo FASTA.
     -   Incluir opciones necesarias (por ejemplo, `-oc <output_directory>`, `-mod oops`, etc.) y asegurar nombrar el directorio de salida para cada ejecución de `meme`.
 3.  **Salida del Script:**
-    - salida a pantalla
+    - Salida a pantalla.
+    - Redireccionar el comando a un archivo script en el directorio de trabajo actual del usuario: `run_meme.sh`.
     
 
 **Algoritmo:**
@@ -209,13 +210,15 @@ rectangle "Sistema de Extracción y Creación de FASTA (Python)" {
 rectangle "Script de Automatización de meme (Shell)" {
     usecase "Leer directorio de archivos FASTA" as UC4
     usecase "Generar script de comandos meme" as UC5
+    usecase "Guardar archivo script en el directorio actual" as UC6
 }
 
 usuario --> UC1 : Ejecuta script Python
-UC1 --> UC2
+UC1 --> UC2 : Parseo del archivo
 UC2 --> UC3 : Guarda archivos FASTA
 usuario --> UC4 : Ejecuta script Shell
 UC4 --> UC5 : Crea script de ejecución de meme
+UC5 --> UC6 : Accesibilidad al usuario
 
 @enduml
 ```
@@ -228,9 +231,10 @@ En formato marmaid, que stackEdit sí reconoce.
 
 graph TD
   usuario["🧑 Usuario"] -->|Ejecuta script Python| UC1["📂 Leer archivo de picos y genoma FASTA"]
-  UC1 --> UC2["🔍 Extraer y agrupar secuencias por TF_name"]
-  UC2 -->|Guarda archivos FASTA| UC3["📄 Generar archivos FASTA"]
+  UC1 -->|Parseo del archivo| UC2["🔍 Extraer y agrupar secuencias por TF_name"]
+  UC2 -->|Generar archivos FASTA| UC3["📄 Guardar archivos FASTA"]
   
   usuario -->|Ejecuta script Shell| UC4["📂 Leer directorio de archivos FASTA"]
   UC4 -->|Crea script de ejecución de meme| UC5["⚙️ Generar script de comandos meme"]
+  UC5 -->|Accesibilidad al usuario| UC6["📄 Guardar archivo script en el directorio actual"]
 ```
