@@ -1,8 +1,8 @@
 # Proyecto de Automatización para la Identificación de Sitios de Unión de Factores de Transcripción en E. coli en experimentos de ChIP-Seq
 
-Fecha: 07/03/2024
+Fecha: 11/03/2024
 
-Participantes: 
+**Participantes:**
 
 - Pablo Salazar Méndez  <email: pablosm@lcg.unam.mx> 
 
@@ -24,22 +24,23 @@ El proyecto busca automatizar la extracción y el análisis de secuencias genóm
         -   Archivo de picos que contiene la información de las regiones de unión de cada factor de transcripción (ver sección "Archivo de Picos" al final de la sección de requisitos).
         -   Archivo de la secuencia del genoma de _E. coli_ en formato FASTA.
     -   Añadir un argumento para especificar el directorio de salida donde se almacenarán los archivos generados.
+
 2.  **Extracción y Procesamiento de Secuencias:**
     
     -   Leer el archivo de picos para obtener las posiciones de inicio y fin de los picos asociados a cada `TF_name`.
     -   Extraer las secuencias desde el archivo FASTA del genoma utilizando las coordenadas `Peak_start` y `Peak_end`, asegurándose de considerar solamente la cadena forward.
+
 3.  **Generación de Archivos FASTA:**
     
     -   Crear archivos FASTA individuales para cada `TF_name`. Los nombres de los archivos deben coincidir con el `TF_name` y usar la extensión `.fa`.
-    -   Almacenar estos archivos en el directorio de salida especificado.
-    
+    -   Almacenar estos archivos en el directorio de salida especificado.  
 
 
 #### B. *Automatización del Análisis de Motivos:**
-    
      
 1.  **Entrada de Directorio:**
-    - Archivos con las secuencias de dna de los picos de cada TF.
+
+    - Archivos con las secuencias de DNA de los picos de cada TF.
     
 2.  **Generación de Script de Automatización:**
     
@@ -49,8 +50,7 @@ El proyecto busca automatizar la extracción y el análisis de secuencias genóm
 3.  **Salida del Script:**
     
     -   El módulo debe generar un script de shell que contiene todas las líneas de comandos necesarias para ejecutar `meme` en cada archivo FASTA.
-    -   Este script debe grabarse en el directorio de trabajo actual con un nombre predefinido, como `run_meme.sh`.
-    
+    -   Este script debe guardarse en el directorio de trabajo actual con un nombre predefinido, como `run_meme.sh`.
 
 ### **Requisitos No Funcionales:**
 
@@ -59,15 +59,13 @@ El proyecto busca automatizar la extracción y el análisis de secuencias genóm
     -   Compatible con sistemas Unix/Linux.
     -   El sistema debe ser ejecutable desde la línea de comandos.
     -   Todos los datos de entrada a los programas deben pasarse via argumentos.
-    -   Si se implementa código debe usarse python o scripts shell.
+    -   Si se implementa código debe usarse python o scripts en shell.
     
 -   **Calidad y Mantenimiento:**
     
-    -   Utilización de Git para el seguimiento y revisión del código.
+    -   Utilización de Git para el seguimiento y revisión del código, correctamente vinculados con GitHub.
     -   Documentación clara y comentarios efectivos deben acompañar todo el proyecto.
-    -   Deben realizarse pruebas las pruebas necesarias para la validación correcta del software.
-
-
+    -   Deben realizarse pruebas las pruebas necesarias para la correcta validación del software.
 
 ### C. Descripción de Datos de Entrada y Salida 
 
@@ -77,40 +75,48 @@ Este archivo contiene información crucial sobre las regiones de unión de los 1
 
 -   **Dataset_Ids:**
     
-    -   _Descripción:_ Identificadores únicos para cada conjunto de datos. Estas IDs indican diferentes experimentos o condiciones bajo las cuales se determinaron los sitios de unión para los TFs.
+    -   _Descripción:_ Identificadores únicos para cada conjunto de datos. Estaos IDs indican diferentes experimentos o condiciones bajo las cuales se determinaron los sitios de unión para los TFs.
     -   _Ejemplo:_ "DS001","DS002", etc.
 -   **TF_name:**
     
     -   _Descripción:_ El nombre del factor de transcripción que se une al genoma en la región especificada.
     -   _Ejemplo:_ "AraC", "LacI", etc.
+
 -   **Peak_start:**
     
     -   _Descripción:_ La posición inicial en el genoma donde comienza el pico de unión. Se refiere a la ubicación del primer nucleótido del pico.
     -   _Ejemplo:_ 345676, 123456, etc.
+
 -   **Peak_end:**
     
     -   _Descripción:_ La posición final en el genoma donde termina el pico de unión. Se refiere a la ubicación del último nucleótido del pico.
     -   _Ejemplo:_ 345786, 123556, etc.
+
 -   **Peak_center:**
     
     -   _Descripción:_ Posición central del pico de unión, calculada como el promedio o posición entre el `Peak_start` y `Peak_end`.
     -   _Ejemplo:_ 345731, 123501, etc.
+
 -   **Peak_number:**
     
     -   _Descripción:_ Número secuencial utilizado para identificar picos dentro de un conjunto de datos. Esto es útil para referencias internas.
     -   _Ejemplo:_ 1, 2, 3, etc.
+
 -   **Max_Fold_Enrichment:**
     
     -   _Descripción:_ Valor que representa el máximo enriquecimiento observado en el sitio de unión del pico.
     -   _Ejemplo:_ 15.4, 22.3, etc.
+
 -   **Max_Norm_Fold_Enrichment:**
     
     -   _Descripción:_ Valor de máximo enriquecimiento normalizado, ajustado por un factor de control para comparaciones equitativas entre experimentos.
     -   _Ejemplo:_ 12.0, 20.1, etc.
+
 -   **Proximal_genes:**
     
     -   _Descripción:_ Lista de genes cercanos al pico de unión, proporcionando contexto para el análisis funcional.
     -   _Ejemplo:_ "geneA, geneB", "geneX, geneY", etc.
+
 -   **Center_position_type:**
     
     -   _Descripción:_ Denota la ubicación genómica del pico central, como intergénica, intrónica, etc.
@@ -131,17 +137,19 @@ Este archivo contiene información crucial sobre las regiones de unión de los 1
 
 1.  **Lectura de Entradas:**
     
-    -   Cargar el archivo de picos y el archivo FASTA del genoma.
+    -   Cargar el archivo de picos y el archivo FASTA del genoma desde la línea de comandos.
     -   Obtener el directorio de salida desde la línea de comandos.
+
 2.  **Procesamiento de Datos:**
     
     -   Leer cada fila del archivo de picos.
     -   Extraer los campos `TF_name`, `Peak_start`, `Peak_end` para cada entrada.
     -   Para cada `TF_name`, usar las posiciones `Peak_start` y `Peak_end` para extraer la secuencia correspondiente del archivo FASTA del genoma, tomando exclusivamente la cadena forward.
+
 3.  **Generación de FASTA:**
     
-    -   Agrupar las secuencias extraídas por `TF_name`.
-    -   Crear un archivo FASTA por cada `TF_name` en el directorio de salida con la misma estructura `<TF_name>.fa`.
+    -   Agrupar las secuencias extraídas por `TF_name` en un mismo archivo.
+    -   Crear un archivo FASTA por cada `TF_name` en el directorio de salida con la misma estructura `<TF_name>.fa` que contenga, en dicho formato, las secuencias extraídas.
 
 
 **Algoritmo**
@@ -167,14 +175,16 @@ Este archivo contiene información crucial sobre las regiones de unión de los 1
 
 1.  **Lectura de Entradas:**
     
-    - Directorio con archivos fasta.
+    - Directorio con archivos FASTA (`.fa`).
     
 2.  **Generación de Comandos:**
     
     -   Iterar sobre cada archivo `.fa` en el directorio.
     -   Generar una línea de comando para ejecutar `meme` usando cada archivo FASTA.
     -   Incluir opciones necesarias (por ejemplo, `-oc <output_directory>`, `-mod oops`, etc.) y asegurar nombrar el directorio de salida para cada ejecución de `meme`.
+
 3.  **Salida del Script:**
+
     - Salida a pantalla.
     - Redireccionar el comando a un archivo script en el directorio de trabajo actual del usuario: `run_meme.sh`.
     
