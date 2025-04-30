@@ -98,3 +98,50 @@ def leer_archivo_picos(peaks_ruta):
 
     except OSError as e:
         raise RuntimeError(f'Error al leer el archivo de picos: {peaks_ruta}') from e
+
+def slicing_sec(genoma,peak_start,peak_end):
+    """
+    Args:
+        genoma: genoma cargado en un único str.
+        peak_start: coordenada de inicio del pico.
+        peak_end: coordenada de fin del pico.
+    Return:
+        Secuencia correspondiente del genoma.
+    Raise:
+        ValueError: en caso de que no haya habido dicha secuencia en el genoma.
+    """
+
+    # Extrayendo el pico
+    sec = genoma[peak_start:peak_end + 1]
+
+    # Verificación de la secuencia
+    if not sec:
+        raise ValueError(f'El locus {(peak_start,peak_end)} no está disponible en el genoma.')
+    else:
+        return sec
+
+def extraer_secuencias(peaks_data,genoma):
+    """
+    Args:
+        peaks_data: diccionario TF-lista con las coordenadas de picos.
+        genoma: genoma cargado en un único string.
+    Return:
+        Diccionario TF-secuencias de picos.
+    """
+
+    # Diccionario TF-secuencias de picos
+    dicc_sec = {}
+
+    # Construimos el nuevo diccionario
+    for tf_name,lista_tup in peaks_data.values():
+
+        if tf_name not in dicc_sec:
+            dicc_sec[tf_name] = list()
+        
+        # Lista con secuencias extraídas
+        dicc_sec[tf_name] = [
+            slicing_sec(genoma,tupla[0],tupla[1])
+            for tupla in lista_tup
+        ]
+    
+    return dicc_sec
