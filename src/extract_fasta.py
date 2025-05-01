@@ -172,3 +172,25 @@ def fasta_por_tf(dic_tf,carp_salida):
                 print(secuencia, file=fasta)
     
     print(f'\nArchivos FASTA disponibles en {carp_salida}.\n')
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog='Módulo 1',
+        description='Extrae secuencias FASTA por TF a partir de picos y un genoma en formato FASTA.'
+    )
+
+    parser.add_argument('--genoma', required=True, help='Ruta al archivo FASTA del genoma')
+    parser.add_argument('--picos', required=True, help='Ruta al archivo TSV de picos')
+    parser.add_argument('--salida', required=True, help='Ruta de salida de los archivos FASTA por TF')
+
+    args = parser.parse_args()
+
+    # Flujo principal del código
+    genoma = cargar_genoma(args.genoma)
+    picos = leer_archivo_picos(args.picos)
+    secuencias = extraer_secuencias(picos,genoma)
+    fasta_por_tf(secuencias,args.salida)
+
+# Asegura que el ámbito main se ejecute únicamente desde la línea de comandos
+if __name__ == '__main__':
+    main()
