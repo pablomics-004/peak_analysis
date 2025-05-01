@@ -96,7 +96,10 @@ def leer_archivo_picos(peaks_ruta):
                 if (int(actual[ind_pe]) - int(actual[ind_ps])) < 0:
                     raise ValueError(f'Los campos Peak_end y Peak_start son incorrectos en el TF {actual[ind_tf]}')
                 
-                dicc_picos[actual[ind_tf]].append((actual[ind_ps],actual[ind_pe]))
+                dicc_picos[actual[ind_tf]].append((
+                    int(actual[ind_ps]),
+                    int(actual[ind_pe])
+                ))
             
             return dicc_picos
     except OSError as e:
