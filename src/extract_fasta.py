@@ -178,11 +178,13 @@ def main():
         prog='Módulo 1',
         description='Extrae secuencias FASTA por TF a partir de picos y un genoma en formato FASTA.'
     )
-
+    
+    # Definiendo argumentos de la línea de comandos
     parser.add_argument('--genoma', required=True, help='Ruta al archivo FASTA del genoma')
     parser.add_argument('--picos', required=True, help='Ruta al archivo TSV de picos')
     parser.add_argument('--salida', required=True, help='Ruta de salida de los archivos FASTA por TF')
 
+    # Analiza los argumentos en la línea de comandos
     args = parser.parse_args()
 
     # Flujo principal del código
