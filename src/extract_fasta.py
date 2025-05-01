@@ -93,12 +93,12 @@ def leer_archivo_picos(peaks_ruta):
                     dicc_picos[actual[ind_tf]] = list()
                 
                 # Verificando el orden de Peak_start y Peak_end
-                if (int(actual[ind_pe]) - int(actual[ind_ps])) < 0:
+                if (int(float(actual[ind_pe])) - int(float(actual[ind_ps]))) < 0:
                     raise ValueError(f'Los campos Peak_end y Peak_start son incorrectos en el TF {actual[ind_tf]}')
                 
                 dicc_picos[actual[ind_tf]].append((
-                    int(actual[ind_ps]),
-                    int(actual[ind_pe])
+                    int(float(actual[ind_ps])),
+                    int(float(actual[ind_pe]))
                 ))
             
             return dicc_picos
@@ -164,14 +164,14 @@ def fasta_por_tf(dic_tf,carp_salida):
     for tf,secuencias in dic_tf.items():
 
         ruta_comp = os.path.join(carp_salida,tf + '.fna')
+        pico = 0
 
         with open(ruta_comp, 'w') as fasta:
 
-            # Encabezado del archivo
-            print(f'>{tf}', file=fasta)
-
             # Imprimiendo las secuencias
             for secuencia in secuencias:
+                pico += 1
+                print(f'>{tf}_peak={pico}_len={len(secuencia)}', file=fasta)
                 print(secuencia, file=fasta)
     
     print(f'\nArchivos FASTA disponibles en {carp_salida}.\n')
