@@ -91,19 +91,18 @@ def leer_archivo_picos(peaks_ruta):
             next(archivo)
             for linea in archivo:
                 actual = linea.strip().split('\t')
+                peak_start = int(float(actual[ind_ps]))
+                peak_end = int(float(actual[ind_pe]))
                 
                 # Creando e inicializando la llave
                 if actual[ind_tf] not in dicc_picos:
                     dicc_picos[actual[ind_tf]] = list()
                 
                 # Verificando el orden de Peak_start y Peak_end
-                if (int(float(actual[ind_pe])) - int(float(actual[ind_ps]))) < 0:
+                if (peak_end - peak_start) < 0:
                     raise ValueError(f'Los campos Peak_end y Peak_start son incorrectos en el TF {actual[ind_tf]}')
                 
-                dicc_picos[actual[ind_tf]].append((
-                    int(float(actual[ind_ps])),
-                    int(float(actual[ind_pe]))
-                ))
+                dicc_picos[actual[ind_tf]].append((peak_start,peak_end))
             
             return dicc_picos
     except OSError as e:
