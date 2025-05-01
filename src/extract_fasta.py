@@ -7,7 +7,8 @@ Autor: Pablo Salazar Méndez
 Fecha: 01-05-2025
 """
 
-import os
+import os # Para interactuar con el sistema operativo local
+import argparse # Para que se ingresen los inputs en una única línea de comandos
 
 def cargar_genoma(fasta_ruta):
     """
@@ -117,8 +118,8 @@ def slicing_sec(genoma,peak_start,peak_end):
     # Verificación de la secuencia
     if not sec:
         raise ValueError(f'El locus {(peak_start,peak_end)} no está disponible en el genoma.')
-    else:
-        return sec
+    
+    return sec
 
 def extraer_secuencias(peaks_data,genoma):
     """
@@ -130,18 +131,42 @@ def extraer_secuencias(peaks_data,genoma):
     """
 
     # Diccionario TF-secuencias de picos
-    dicc_sec = {}
-
-    # Construimos el nuevo diccionario
-    for tf_name,lista_tup in peaks_data.values():
-
-        if tf_name not in dicc_sec:
-            dicc_sec[tf_name] = list()
-        
-        # Lista con secuencias extraídas
-        dicc_sec[tf_name] = [
+    dicc_sec = {
+        tf_name: [
             slicing_sec(genoma,tupla[0],tupla[1])
             for tupla in lista_tup
         ]
+        for tf_name,lista_tup in peaks_data.items()
+    }
     
     return dicc_sec
+
+def fasta_por_tf(dic_tf,carp_salida):
+    """
+    Args:
+        dic_tf: diccionario TF-secuencias con picos de unión.
+        carp_salida: directorio de salida de los archivos FASTA.
+    Return:
+        Archivos FASTA por cada TF dentro del directorio proporcionado.
+    Raises:
+        NotADirectoryError: en caso de que la carpeta de salida no exista.
+    """
+
+    # Verificando la validez del directorio
+    if not os.path.isdir(carp_salida):
+        raise NotADirectoryError(f'La carpeta {carp_salida} no existe.')
+    
+    for tf,secuencias in dic_tf.items():
+
+        ruta_comp = os.path.join(carp_salida,tf + '.fna')
+
+        with open(ruta_comp, 'w') as fasta:
+
+            # Encabezado del archivo
+            print(f'>{tf}', file=fasta)
+
+            # Imprimiendo las secuencias
+            for secuencia in secuencias:
+                print(secuencia, file=fasta)
+    
+    print(f'\nArchivos FASTA disponibles en {carp_salida}.\n')
