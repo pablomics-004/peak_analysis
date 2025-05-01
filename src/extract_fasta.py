@@ -56,18 +56,21 @@ def leer_archivo_picos(peaks_ruta):
     Args:
         peaks_ruta: ruta al archivo de picos.
     Return:
-        Diccionario TF-lista de (peak_start,peak_end)
+        Diccionario TF-lista de (peak_start,peak_end).
+    Raises:
+        FileNotFoundError: si el archivo no es encontrado.
+        ValueError: si falta alguno de los campos o están incorrectos.
+        RunTimeError: de no ser posible la lectura del archivo.
     """
     
     # Verificando la presencia del archivo
     if not os.path.isfile(peaks_ruta):
-        raise FileNotFoundError(f'Error: no se encontró el archivo: {peaks_ruta}')
+        raise FileNotFoundError(f'Error: no se encontró el archivo {peaks_ruta}')
     
     # Campos que debe tener
     campos = ['TF_name','Peak_start','Peak_end']
     
     try:
-        
         with open(peaks_ruta) as archivo:
 
             # Verificando que no falte alguno de los parámetros
@@ -96,7 +99,6 @@ def leer_archivo_picos(peaks_ruta):
                 dicc_picos[actual[ind_tf]].append((actual[ind_ps],actual[ind_pe]))
             
             return dicc_picos
-
     except OSError as e:
         raise RuntimeError(f'Error al leer el archivo de picos: {peaks_ruta}') from e
 
