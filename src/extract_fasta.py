@@ -1,7 +1,11 @@
 """
 Este programa comprende el primer módulo del proyecto Peak analysis, bajo el nombre extract_fasta.py. Permite
 extraer los picos de unión de TFs a genomas en formato FASTA, devuelve un archivo FASTA por cada TF proporcionado
-en el archivo de picos.
+en el archivo de picos; se recomienda el uso de rutas absolutas para los archivos.
+
+Modo de uso:
+
+python extract_fasta.py --genoma ruta_genoma/ --picos ruta_picos/ --salida ruta_salida_fasta/
 
 Autor: Pablo Salazar Méndez
 Fecha: 01-05-2025
