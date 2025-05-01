@@ -88,7 +88,6 @@ def leer_archivo_picos(peaks_ruta):
             ind_ps = encabezado.index(campos[1])
             ind_pe = encabezado.index(campos[2])
 
-            next(archivo)
             for linea in archivo:
                 actual = linea.strip().split('\t')
                 peak_start = int(float(actual[ind_ps]))
