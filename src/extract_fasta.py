@@ -16,36 +16,7 @@ import argparse # Para que se ingresen los inputs en una única línea de comand
 
 import genome as gn # Cargado y lectura de genomas
 import peaks as pk # Extractor de secuencias
-
-def fasta_por_tf(dic_tf,carp_salida):
-    """
-    Args:
-        dic_tf: diccionario TF-secuencias con picos de unión.
-        carp_salida: directorio de salida de los archivos FASTA.
-    Return:
-        Archivos FASTA por cada TF dentro del directorio proporcionado.
-    Raises:
-        NotADirectoryError: en caso de que la carpeta de salida no exista.
-    """
-
-    # Verificando la validez del directorio
-    if not os.path.isdir(carp_salida):
-        raise NotADirectoryError(f'La carpeta {carp_salida} no existe.')
-    
-    for tf,secuencias in dic_tf.items():
-
-        ruta_comp = os.path.join(carp_salida,tf + '.fna')
-        pico = 0
-
-        with open(ruta_comp, 'w') as fasta:
-
-            # Imprimiendo las secuencias
-            for secuencia in secuencias:
-                pico += 1
-                print(f'>{tf}_peak={pico}_len={len(secuencia)}', file=fasta)
-                print(secuencia, file=fasta)
-    
-    print(f'\nArchivos FASTA disponibles en {carp_salida}.\n')
+import io_utils as iu
 
 def main():
     parser = argparse.ArgumentParser(
@@ -65,7 +36,7 @@ def main():
     genoma = gn.cargar_genoma(args.genoma)
     picos = gn.leer_archivo_picos(args.picos)
     secuencias = pk.extraer_secuencias(picos,genoma)
-    fasta_por_tf(secuencias,args.salida)
+    iu.fasta_por_tf(secuencias,args.salida)
 
 # Asegura que el ámbito main se ejecute únicamente desde la línea de comandos
 if __name__ == '__main__':
