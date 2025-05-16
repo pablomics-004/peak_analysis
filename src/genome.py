@@ -2,11 +2,17 @@
 Módulo de lectura y procesamiento de archivos genómicos y de picos de unión de factores de transcripción.
 
 Este módulo contiene funciones para:
+
 - Leer un archivo FASTA que contiene un genoma y devolverlo como una única cadena de texto.
 - Leer un archivo tabulado de picos de unión (formato .tsv o .txt con campos específicos) y organizar la información
   por factor de transcripción (TF) en un diccionario de coordenadas de picos.
 
+Módulos requeridos:
+
+- os: Para verificar rutas de archivos y carpetas en el sistema operativo.
+  
 Funciones:
+
 - cargar_genoma(fasta_ruta): Lee un archivo FASTA y devuelve el genoma como cadena.
 - leer_archivo_picos(peaks_ruta): Lee un archivo de picos y devuelve un diccionario TF -> [(start, end)].
 

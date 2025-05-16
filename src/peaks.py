@@ -2,10 +2,12 @@
 Módulo para extraer secuencias genómicas específicas a partir de coordenadas de picos de unión.
 
 Este módulo contiene funciones para:
+
 - Obtener subsecuencias del genoma a partir de coordenadas.
 - Asociar secuencias de picos con sus respectivos factores de transcripción (TFs) a partir de un diccionario de picos.
 
 Funciones:
+
 - slicing_sec(genoma, peak_start, peak_end): Devuelve la subsecuencia del genoma correspondiente a un intervalo.
 - extraer_secuencias(peaks_data, genoma): Devuelve un diccionario con las secuencias de picos por TF.
 

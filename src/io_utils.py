@@ -27,13 +27,22 @@ import os
 
 def fasta_por_tf(dic_tf,carp_salida):
     """
+    Genera archivos FASTA (.fna) por cada TF usando las secuencias proporcionadas.
+
     Args:
-        dic_tf: diccionario TF-secuencias con picos de unión.
-        carp_salida: directorio de salida de los archivos FASTA.
-    Return:
-        Archivos FASTA por cada TF dentro del directorio proporcionado.
+        dic_tf (dict): Diccionario con claves como nombres de TFs (str) y valores como listas de secuencias (str).
+        carp_salida (str): Ruta del directorio donde se guardarán los archivos FASTA.
+
+    Returns:
+        None. Se generan archivos en disco con extensión .fna, uno por TF.
+
     Raises:
-        NotADirectoryError: en caso de que la carpeta de salida no exista.
+        NotADirectoryError: Si el directorio especificado no existe.
+
+    Formato de salida:
+        Cada archivo tendrá líneas con encabezados tipo:
+            >TF_nombre_peak=1_len=200
+        Seguido por la secuencia correspondiente en la línea siguiente.
     """
 
     # Verificando la validez del directorio

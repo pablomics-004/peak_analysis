@@ -1,12 +1,24 @@
 """
-Este programa comprende el primer módulo del proyecto Peak analysis, bajo el nombre extract_fasta.py. Permite
-extraer los picos de unión de TFs a genomas en formato FASTA, devuelve un archivo FASTA por cada TF proporcionado
-en el archivo de picos; se recomienda el uso de rutas absolutas para los archivos.
+Módulo principal del proyecto Peak Analysis: extract_fasta.py
 
-Modo de uso:
+Este script permite extraer secuencias genómicas correspondientes a los picos de unión
+de factores de transcripción (TFs) a partir de un archivo FASTA de genoma y un archivo
+TSV con coordenadas de picos. El resultado son archivos FASTA individuales por cada TF.
 
-    python extract_fasta.py --genoma ruta_genoma/ --picos ruta_picos/ --salida ruta_salida_fasta/
+Requisitos:
 
+- El archivo de genoma debe estar en formato FASTA, con una sola secuencia en una línea.
+- El archivo de picos debe estar en formato tabular (.tsv), con las columnas:
+  'TF_name', 'Peak_start', 'Peak_end'.
+- Se recomienda el uso de rutas absolutas para evitar errores de ubicación.
+
+Modo de uso (desde terminal):
+
+    python extract_fasta.py --genoma /ruta/genoma.fna \\
+                            --picos /ruta/picos.tsv \\
+                            --salida /ruta/salida_fasta/
+
+Versión: 1.0.0
 Autor: Pablo Salazar Méndez
 Fecha: 01-05-2025
 """
@@ -16,7 +28,7 @@ import argparse # Para que se ingresen los inputs en una única línea de comand
 
 import genome as gn # Cargado y lectura de genomas
 import peaks as pk # Extractor de secuencias
-import io_utils as iu
+import io_utils as iu # Generador de archivos FASTA por cada TF
 
 def main():
     parser = argparse.ArgumentParser(
