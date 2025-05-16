@@ -12,6 +12,14 @@ Requisitos:
   'TF_name', 'Peak_start', 'Peak_end'.
 - Se recomienda el uso de rutas absolutas para evitar errores de ubicación.
 
+Módulos requeridos:
+
+- os: Para verificar y construir rutas de archivos en el sistema operativo.
+- argparse: Para recibir los argumentos desde la línea de comandos.
+- genome: Para cargar y leer el genoma de interés.
+- peaks: Para extraer los picos de cada TF.
+- io_utils: Genera archivos FASTA por cada TF y sus correspondientes picos.
+
 Modo de uso (desde terminal):
 
     python extract_fasta.py --genoma /ruta/genoma.fna \\
