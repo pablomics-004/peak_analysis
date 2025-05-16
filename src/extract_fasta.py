@@ -15,47 +15,7 @@ import os # Para interactuar con el sistema operativo local
 import argparse # Para que se ingresen los inputs en una única línea de comandos
 
 import genome as gn # Cargado y lectura de genomas
-
-def slicing_sec(genoma,peak_start,peak_end):
-    """
-    Args:
-        genoma: genoma cargado en un único str.
-        peak_start: coordenada de inicio del pico.
-        peak_end: coordenada de fin del pico.
-    Return:
-        Secuencia correspondiente del genoma.
-    Raise:
-        ValueError: en caso de que no haya habido dicha secuencia en el genoma.
-    """
-
-    # Extrayendo el pico
-    sec = genoma[peak_start:peak_end + 1]
-
-    # Verificación de la secuencia
-    if not sec:
-        raise ValueError(f'El locus {(peak_start,peak_end)} no está disponible en el genoma.')
-    
-    return sec
-
-def extraer_secuencias(peaks_data,genoma):
-    """
-    Args:
-        peaks_data: diccionario TF-lista con las coordenadas de picos.
-        genoma: genoma cargado en un único string.
-    Return:
-        Diccionario TF-secuencias de picos.
-    """
-
-    # Diccionario TF-secuencias de picos
-    dicc_sec = {
-        tf_name: [
-            slicing_sec(genoma,tupla[0],tupla[1])
-            for tupla in lista_tup
-        ]
-        for tf_name,lista_tup in peaks_data.items()
-    }
-    
-    return dicc_sec
+import peaks as pk # Extractor de secuencias
 
 def fasta_por_tf(dic_tf,carp_salida):
     """
@@ -104,7 +64,7 @@ def main():
     # Flujo principal del código
     genoma = gn.cargar_genoma(args.genoma)
     picos = gn.leer_archivo_picos(args.picos)
-    secuencias = extraer_secuencias(picos,genoma)
+    secuencias = pk.extraer_secuencias(picos,genoma)
     fasta_por_tf(secuencias,args.salida)
 
 # Asegura que el ámbito main se ejecute únicamente desde la línea de comandos

@@ -16,6 +16,7 @@ Uso:
     genoma = gn.cargar_genoma('genoma.fna')
     picos = gn.leer_archivo_picos('picos.tsv')
 
+Versión: 1.0.0
 Autor: Pablo Salazar Méndez
 Fecha: 15-05-2025
 """
@@ -24,14 +25,18 @@ import os
 
 def cargar_genoma(fasta_ruta: str) -> str:
     """
+    Lee un archivo FASTA y devuelve la secuencia genómica como una única cadena de texto.
+
     Args:
-        fasta_ruta: recibe la ruta absoluta del archivo FASTA con el genoma.
-    Return:
-        Genoma en una única cadena de texto.
+        fasta_ruta (str): Ruta absoluta del archivo FASTA con el genoma.
+
+    Returns:
+        str: Genoma representado como una sola cadena (sin encabezados).
+
     Raises:
-        FileNotFoundError: no se encontró el archivo en fasta_ruta.
-        ValueError: el archivo FASTA está vacío o no tiene el formato esperado.
-        RunTimeError: error al leer archivo FASTA proporcionado en fasta_ruta.
+        FileNotFoundError: Si no se encuentra el archivo FASTA en la ruta proporcionada.
+        ValueError: Si el archivo no tiene el formato FASTA correcto o está vacío.
+        RuntimeError: Si ocurre un error al leer el archivo.
     """
 
     # Verificando la ruta
@@ -65,14 +70,23 @@ def cargar_genoma(fasta_ruta: str) -> str:
 
 def leer_archivo_picos(peaks_ruta: str) -> dict:
     """
+    Lee un archivo tabulado con información de picos de unión de TFs y retorna un diccionario con los intervalos.
+
+    El archivo debe tener al menos las columnas:
+    - 'TF_name': nombre del factor de transcripción.
+    - 'Peak_start': posición inicial del pico.
+    - 'Peak_end': posición final del pico.
+
     Args:
-        peaks_ruta: ruta al archivo de picos.
-    Return:
-        Diccionario TF-lista de (peak_start,peak_end).
+        peaks_ruta (str): Ruta al archivo de picos (formato TSV).
+
+    Returns:
+        dict: Diccionario con clave el nombre del TF y valor una lista de tuplas (peak_start, peak_end).
+
     Raises:
-        FileNotFoundError: si el archivo no es encontrado.
-        ValueError: si falta alguno de los campos o están incorrectos.
-        RunTimeError: de no ser posible la lectura del archivo.
+        FileNotFoundError: Si no se encuentra el archivo.
+        ValueError: Si falta alguno de los campos obligatorios o si las coordenadas son inválidas.
+        RuntimeError: Si ocurre un error al leer el archivo.
     """
     
     # Verificando la presencia del archivo
