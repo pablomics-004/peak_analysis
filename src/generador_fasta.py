@@ -24,14 +24,15 @@ Fecha: 15-05-2025
 """
 
 import os
+ruta_actual = os.getcwd()
 
-def fasta_por_tf(dic_tf,carp_salida):
+def fasta_por_tf(dic_tf: dict,carp_salida: str = ruta_actual):
     """
     Genera archivos FASTA (.fna) por cada TF usando las secuencias proporcionadas.
 
     Args:
         dic_tf (dict): Diccionario con claves como nombres de TFs (str) y valores como listas de secuencias (str).
-        carp_salida (str): Ruta del directorio donde se guardarán los archivos FASTA.
+        carp_salida (str): Ruta del directorio donde se guardarán los archivos FASTA (por defecto es la actual).
 
     Returns:
         None. Se generan archivos en disco con extensión .fna, uno por TF.
