@@ -22,9 +22,9 @@ Módulos requeridos:
 
 Modo de uso (desde terminal):
 
-    python extract_fasta.py --genoma /ruta/genoma.fna \\
-                            --picos /ruta/picos.tsv \\
-                            --salida /ruta/salida_fasta/
+    python extract_fasta.py -g /ruta/genoma.fna \\
+                            -p /ruta/picos.tsv \\
+                            -s /ruta/salida_fasta/
 
 Versión: 1.0.0
 Autor: Pablo Salazar Méndez

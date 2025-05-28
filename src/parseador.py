@@ -47,19 +47,19 @@ def parseo():
     
     # Definiendo argumentos de la línea de comandos
     parser.add_argument(
-        '--genoma',
+        '-g','--genoma',
         type=str,
         required=True,
         help='Ruta al archivo FASTA del genoma'
     )
     parser.add_argument(
-        '--picos', 
+        '-p','--picos', 
         type=str, 
         required=True, 
         help='Ruta al archivo TSV de picos'
     )
     parser.add_argument(
-        '--salida', 
+        '-s','--salida', 
         type=str, 
         help='Ruta de salida de los archivos FASTA por TF'
     )
