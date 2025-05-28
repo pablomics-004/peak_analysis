@@ -1,6 +1,4 @@
 """
-version: 2.0.2
-
 Módulo principal del proyecto Peak Analysis: extract_fasta.py
 
 Este script permite extraer secuencias genómicas correspondientes a los picos de unión
@@ -28,7 +26,7 @@ Modo de uso (desde terminal):
                             -p /ruta/picos.tsv \\
                             -s /ruta/salida_fasta/
 
-Versión: 1.0.0
+Versión: 2.0.2
 Autor: Pablo Salazar Méndez
 Fecha: 01-05-2025
 """

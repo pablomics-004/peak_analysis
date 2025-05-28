@@ -20,7 +20,7 @@ Uso desde otro módulo:
     args = pr.parseo()
 
 Autor: Pablo Salazar Méndez
-Versión: 1.0.0
+Versión: 1.0.3
 Fecha: 16-05-2025
 """
 
