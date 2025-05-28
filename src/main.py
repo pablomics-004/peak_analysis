@@ -31,9 +31,6 @@ Autor: Pablo Salazar Méndez
 Fecha: 01-05-2025
 """
 
-import os # Para interactuar con el sistema operativo local
-import argparse # Para que se ingresen los inputs en una única línea de comandos
-
 import genoma as gn # Cargado y lectura de genomas
 import picos as pc # Extractor de secuencias
 import generador_fasta as gf # Generador de archivos FASTA por cada TF
