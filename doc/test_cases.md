@@ -89,7 +89,7 @@
     ```
 6. **Caso: Valor de `Peak_start` sea mayor a `Peak_end`.**
 
-	- **Entrada:**
+	- **Entradas:**
 	
 		- Archivo de picos con un `Peak_end` menor a `Peak_start_`.
 		- Archivo FASTA del genoma.
@@ -118,28 +118,27 @@
     main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
     ```
     ```
-    Error: La carpeta {carp_salida} no existe
+    Error: La carpeta ruta_salida/ no existe
     ```
 
 8. **Caso: Ausencia de algún parámetro en el query.**
 
-	- **Entrada:** ausencia de alguno de los parámetros necesarios para la extracción y creación del FASTA.
+	- **Entradas:** ausencia de alguno de los parámetros necesarios para la extracción y creación del FASTA.
 
 	- **Esperado:** un mensaje de error que indique el/los parámetros faltantes.
 
-```py
-# Falta el archivo de picos
-mk_fasta_from_peaks.py -i  -g Ecoli.fna -o fasta_peaks/
-# Falta el archivo FASTA
-mk_fasta_from_peaks.py -i peak_file.txt -g -o fasta_peaks/
-# Falta el directorio de salida
-mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o
-```
-```bash
-# Falta del archivo de picos
-Error: Peak file missing as a parameter
-# Falta el archivo FASTA
-Error: FASTA file missing as a parameter
-# Falta el directorio de salida
-Error: Output directory missing as a parameter
-```
+    ```python
+    # Falta el archivo de picos
+    main.py -g ruta/Ecoli.fna -s ruta_salida/
+    # Falta el archivo FASTA
+    main.py -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```bash
+    # Falta del archivo de picos
+    usage: Módulo 1 [-h] -g GENOMA -p PICOS [-s SALIDA]
+    Módulo 1: error: the following arguments are required: -p/--picos
+
+    # Falta el archivo FASTA
+    usage: Módulo 1 [-h] -g GENOMA -p PICOS [-s SALIDA]
+    Módulo 1: error: the following arguments are required: -g/--genoma
+    ```
