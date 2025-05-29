@@ -22,11 +22,11 @@ Uso:
     genoma = gn.cargar_genoma('genoma.fna')
     picos = gn.leer_archivo_picos('picos.tsv')
 
-Versión: 1.0.0
+Versión: 2.0.3
 Autor: Pablo Salazar Méndez
-Fecha: 15-05-2025
+Fecha: 29-05-2025
 """
-
+import pandas as pd
 import os
 
 def cargar_genoma(fasta_ruta: str) -> str:
@@ -84,7 +84,7 @@ def leer_archivo_picos(peaks_ruta: str) -> dict:
     - 'Peak_end': posición final del pico.
 
     Args:
-        peaks_ruta (str): Ruta al archivo de picos (formato TSV).
+        peaks_ruta (str): Ruta al archivo de picos (formato TSV o TXT tabulado).
 
     Returns:
         dict: Diccionario con clave el nombre del TF y valor una lista de tuplas (peak_start, peak_end).
@@ -94,43 +94,35 @@ def leer_archivo_picos(peaks_ruta: str) -> dict:
         ValueError: Si falta alguno de los campos obligatorios o si las coordenadas son inválidas.
         RuntimeError: Si ocurre un error al leer el archivo.
     """
-    
-    # Verificando la presencia del archivo
+
     if not os.path.isfile(peaks_ruta):
         raise FileNotFoundError(f'Error: no se encontró el archivo {peaks_ruta}')
     
-    # Campos que debe tener
-    campos = ['TF_name','Peak_start','Peak_end']
-    
+    campos = ['TF_name', 'Peak_start', 'Peak_end']
+
     try:
-        with open(peaks_ruta) as archivo:
+        # Leer archivo con pandas
+        df = pd.read_csv(peaks_ruta, sep='\t')
 
-            # Verificando que no falte alguno de los parámetros
-            encabezado = archivo.readline().strip('\n').split('\t')
-            if not all(campo in encabezado for campo in campos):
-                raise ValueError(f'El archivo no cuenta con alguno de los campos TF_name, Peak_start o Peak_end.')
+        # Verificar columnas requeridas
+        if not all(col in df.columns for col in campos):
+            raise ValueError(f'El archivo no cuenta con alguno de los campos requeridos: {campos}')
 
-            # Diccionario e índices
-            dicc_picos = {}
-            ind_tf = encabezado.index(campos[0])
-            ind_ps = encabezado.index(campos[1])
-            ind_pe = encabezado.index(campos[2])
+        # Convertir a enteros y verificar coordenadas
+        df['Peak_start'] = df['Peak_start'].astype(int)
+        df['Peak_end'] = df['Peak_end'].astype(int)
 
-            for linea in archivo:
-                actual = linea.strip().split('\t')
-                peak_start = int(float(actual[ind_ps]))
-                peak_end = int(float(actual[ind_pe]))
-                
-                # Creando e inicializando la llave
-                if actual[ind_tf] not in dicc_picos:
-                    dicc_picos[actual[ind_tf]] = list()
-                
-                # Verificando el orden de Peak_start y Peak_end
-                if (peak_end - peak_start) < 0:
-                    raise ValueError(f'Los campos Peak_end y Peak_start son incorrectos en el TF {actual[ind_tf]}')
-                
-                dicc_picos[actual[ind_tf]].append((peak_start,peak_end))
-            
-            return dicc_picos
-    except OSError as e:
-        raise RuntimeError(f'Error al leer el archivo de picos: {peaks_ruta}') from e
+        if (df['Peak_end'] < df['Peak_start']).any():
+            raise ValueError('Existen filas con Peak_end menor que Peak_start.')
+
+        # Agrupar por TF y convertir a diccionario de listas de tuplas
+        dicc_picos = (
+            df.groupby('TF_name')
+            .apply(lambda x: list(zip(x['Peak_start'], x['Peak_end'])))
+            .to_dict()
+        )
+
+        return dicc_picos
+
+    except Exception as e:
+        raise RuntimeError(f'Error al procesar el archivo de picos: {e}') from e
