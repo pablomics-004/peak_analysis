@@ -23,7 +23,7 @@ Uso:
     genoma = gn.cargar_genoma('genoma.fna')
     picos = gn.leer_archivo_picos('picos.tsv')
 
-Versión: 2.0.3
+Versión: 2.0.7
 Autor: Pablo Salazar Méndez
 Fecha: 29-05-2025
 """
@@ -103,7 +103,8 @@ def detectar_sep(picos_ruta: str) -> str | None:
 
 def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
     """
-    Lee un archivo tabulado o con comas con información de picos de unión de TFs y retorna un diccionario con los intervalos.
+    Lee un archivo tabulado o con comas con información de picos de unión de TFs y retorna un diccionario con los 
+    intervalos.
 
     El archivo debe tener al menos las columnas:
     - 'TF_name': nombre del factor de transcripción.
@@ -118,7 +119,7 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
 
     RAISES:
         FileNotFoundError: Si no se encuentra el archivo.
-        ValueError: Si el archivo no es TSV o CSV, si falta alguno de los campos obligatorios o si las 
+        ValueError: Si el archivo está vacío, no es TSV o CSV, si falta alguno de los campos obligatorios o si las 
         coordenadas son inválidas.
         RuntimeError: Si ocurre un error al leer el archivo.
     """

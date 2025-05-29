@@ -22,13 +22,13 @@ Módulos requeridos:
 
 Modo de uso (desde terminal):
 
-    python extract_fasta.py -g /ruta/genoma.fna \\
+    python3 main.py -g /ruta/genoma.fna \\
                             -p /ruta/picos.tsv \\
                             -s /ruta/salida_fasta/
 
-Versión: 2.0.2
+Versión: 2.0.3
 Autor: Pablo Salazar Méndez
-Fecha: 01-05-2025
+Fecha: 29-05-2025
 """
 
 import genoma as gn # Cargado y lectura de genomas
