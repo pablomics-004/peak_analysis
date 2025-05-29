@@ -49,7 +49,7 @@ def fasta_por_tf(dic_tf: dict,carp_salida: str = ruta_actual):
 
     # Verificando la validez del directorio
     if not os.path.isdir(carp_salida):
-        raise NotADirectoryError(f'La carpeta {carp_salida} no existe.')
+        raise NotADirectoryError(f'Error: La carpeta {carp_salida} no existe')
     
     for tf,secuencias in dic_tf.items():
 

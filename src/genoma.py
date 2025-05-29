@@ -15,7 +15,7 @@ Módulos requeridos:
 Funciones:
 
 - cargar_genoma(fasta_ruta): Lee un archivo FASTA y devuelve el genoma como cadena.
-- leer_archivo_picos(peaks_ruta): Lee un archivo de picos y devuelve un diccionario TF -> [(start, end)].
+- leer_archivo_picos(picos_ruta): Lee un archivo de picos y devuelve un diccionario TF -> [(start, end)].
 
 Uso:
     import genome as gn
@@ -75,9 +75,35 @@ def cargar_genoma(fasta_ruta: str) -> str:
     except OSError as e:
         raise RuntimeError(f'Error al leer el archivo FASTA: {fasta_ruta}') from e
 
-def leer_archivo_picos(peaks_ruta: str) -> dict[str, list[tuple[int, int]]]:
+def detectar_sep(picos_ruta: str) -> str | None:
     """
-    Lee un archivo tabulado con información de picos de unión de TFs y retorna un diccionario con los intervalos.
+    Dado un archivo, lee las primeras cinco líneas para dectar el tipo de separador que tiene.
+
+    PARÁMETROS:
+        picos_ruta (str): Ruta del archivo de picos.
+
+    RETURN:
+        str: Indica el separador que tiene el archivo.
+        None en caso de que no haya '\t' o ',' como separadores.
+    """
+
+    # Primeras cinco líneas
+    with open(picos_ruta) as pr:
+        lineas = [pr.readline() for _ in range(5)]
+    
+    tab = sum(l.count('\t') for l in lineas)
+    coma = sum(l.count(',') for l in lineas)
+
+    if tab > coma:
+        return '\t'
+    elif coma > tab:
+        return ','
+    else:
+        return None # Error en la función leer_archivo_picos()
+
+def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
+    """
+    Lee un archivo tabulado o con comas con información de picos de unión de TFs y retorna un diccionario con los intervalos.
 
     El archivo debe tener al menos las columnas:
     - 'TF_name': nombre del factor de transcripción.
@@ -85,29 +111,39 @@ def leer_archivo_picos(peaks_ruta: str) -> dict[str, list[tuple[int, int]]]:
     - 'Peak_end': posición final del pico.
 
     PARÁMETROS:
-        peaks_ruta (str): Ruta al archivo de picos (formato TSV o TXT tabulado).
+        picos_ruta (str): Ruta al archivo de picos (formato TSV, TXT tabulado o CSV).
 
     RETURNS:
         dict: Diccionario con clave el nombre del TF y valor una lista de tuplas (peak_start, peak_end).
 
     RAISES:
         FileNotFoundError: Si no se encuentra el archivo.
-        ValueError: Si falta alguno de los campos obligatorios o si las coordenadas son inválidas.
+        ValueError: Si el archivo no es TSV o CSV, si falta alguno de los campos obligatorios o si las 
+        coordenadas son inválidas.
         RuntimeError: Si ocurre un error al leer el archivo.
     """
 
-    if not os.path.isfile(peaks_ruta):
-        raise FileNotFoundError(f'Error: no se encontró el archivo {peaks_ruta}')
+    if not os.path.isfile(picos_ruta):
+        raise FileNotFoundError(f'Error: no se encontró el archivo {picos_ruta}')
+    
+    # Verificar que el archivo no esté vacío
+    if not os.path.getsize(picos_ruta):
+        raise ValueError(f'Error: el archivo {picos_ruta} está vacío')
+
+    # Verificar que el archivo sea tsv o cvs
+    sep = detectar_sep(picos_ruta)
+    if not sep:
+        raise ValueError('Error: Formato de archivo inválido, se esperaba .tsv o .csv')
     
     campos = ['TF_name', 'Peak_start', 'Peak_end']
 
     try:
         # Leer archivo con pandas
-        df = pd.read_csv(peaks_ruta, sep='\t')
+        df = pd.read_csv(picos_ruta, sep=sep)
 
         # Verificar columnas requeridas
         if not all(col in df.columns for col in campos):
-            raise ValueError(f'El archivo no cuenta con alguno de los campos requeridos: {campos}')
+            raise ValueError(f'Error: El archivo no cuenta con alguno de los campos requeridos: {campos}')
 
         # Convertir a enteros y verificar coordenadas
         df['Peak_start'] = df['Peak_start'].astype(int)

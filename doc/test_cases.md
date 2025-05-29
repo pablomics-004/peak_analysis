@@ -9,15 +9,33 @@
         -   Archivo de picos válido.
         -   Directorio de salida.
 
-    -   **Esperado:** `"Error: Genome file not found"`
+    -   **Esperado:** `f"Error: No se encontró el archivo {ruta_archivo}"`
     
     ```python
-    mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/ 
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
     ```
     ```
-    Error: "Ecoli.fna" genome file not found
+    Error: No se encontró el archivo ruta/Ecoli.fna
     ```
-2.  **Caso: Archivo de picos vacío.**
+
+2. **Caso: Archivo de picos no se encuentra.**
+
+    - **Entradas:**
+
+        - Archivo FASTA del genoma válido.
+        - Ruta al archivo de picos inválida.
+        - Directorio de salida.
+    
+    - **Esperado:** `f"Error: no se encontró el archivo {picos_ruta}"`
+
+    ```python
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```
+    Error: no se encontró el archivo {picos_ruta}
+    ```
+
+3.  **Caso: Archivo de picos vacío.**
     
     -   **Entradas:**
 
@@ -25,61 +43,68 @@
         -   Archivo FASTA del genoma.
         -   Directorio de salida.
 
-    -   **Esperado:** `"Error: the peak file is empty."`
+    -   **Esperado:** `"Error: el archivo {picos_ruta} está vacío"`
 
-```python
-mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/ 
-```
-  
-```
-Error: the peak file is empty
-```
+    ```python
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    
+    ```
+    Error: el archivo ruta/archivo_picos.tsv está vacío
+    ```
 
-3.  **Caso: Posiciones `Peak_start` y `Peak_end` fuera del rango del genoma.**
+4. **Caso: Archivo de picos con formato inválido (no TSV o CSV).**
+
+    - **Entradas:**
+
+        - Archivo del genoma válido.
+        - Archivo de picos inválido.
+        - Ruta de salida válida.
+
+    - **Esperado:** `"Error: Formato de archivo inválido, se esperaba .tsv o .csv"`
+
+    ```python
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```
+    Error: Formato de archivo inválido, se esperaba .tsv o .csv
+    ```
+
+5.  **Caso: El archivo de picos no cuenta con alguno de los campos requeridos (`TF_name`, `Peak_start`, `Peak_end`).**
     
     -   **Entradas:**
 
-        -   Archivo de picos con algunas posiciones `Peak_start` y `Peak_end` fuera del tamaño del genoma.
+        -   Archivo de picos con ausencia de alguno de los campos `TF_name`, `Peak_start`, `Peak_end`.
         -   Archivo FASTA del genoma válido.
         -   Directorio de salida.
 
-    -   **Esperado:**
+    -   **Esperado:** `Error: El archivo no cuenta con alguno de los campos requeridos: {campos}`
 
-        -   El sistema debe imprimir un mensaje de advertencia: `"Warning: Some peaks are bigger than the genome". Check the log.out file`
-        
-        -   Generar un archivo de log indicando los picos fuera de rango. El archivo debe contener las líneas del archivo de picos que tienen problemas.
+    ```python
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
 
-```python
-    mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/ 
-```
+    ```python
+    Error: El archivo no cuenta con alguno de los campos requeridos: TF_name
+    ```
+6. **Caso: Valor de `Peak_start` sea mayor a `Peak_end`.**
 
-```bash
-ls
-```
-
-```bash
-log.out
-fasta_peaks/
-```
-4. **Caso: ausencia de algún campo en el archivo de entrada, sea `Peak_start` o `Peak_end`.**
+	- **Entrada:**
 	
-	- **Entradas:**
-	
-		- Archivo de picos con los `Peak_start` o `Peak_end` faltantes. 
-		- Archivo FASTA del genoma válido.
+		- Archivo de picos con un `Peak_end` menor a `Peak_start_`.
+		- Archivo FASTA del genoma.
 		- Directorio de salida.
 
-	- **Esperado:**
+	- **Esperado:** `"Existen filas con Peak_end menor que Peak_start."`.
 
-		- El software ha de imprimir un mensaje, respectivamente, indicando el campo faltante:
+    ```py
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```
+    Existen filas con Peak_end menor que Peak_start.
+    ```
 
-```py
-mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/		
-```
-`Error: Peak_start is empty`
-`Error: Peak_end is empty`
-
-5. **Caso: Directorio de salida inexistente.**
+7. **Caso: Directorio de salida inexistente.**
 
 	 - **Entradas:**
 		 
@@ -87,16 +112,16 @@ mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/
 		 - Archivo FASTA del genoma válido.
 		 - Directorio de salida inexistente.
  
-	 - **Esperado:**  `Warning: Output directory does not exist`
+	 - **Esperado:**  `Error: La carpeta {carp_salida} no existe`
 
-```py
-mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/
-```
-```
-Warning: Output directory does not exist
-```
+    ```py
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```
+    Error: La carpeta {carp_salida} no existe
+    ```
 
-6. **Caso: Ausencia de algún parámetro en el query.**
+8. **Caso: Ausencia de algún parámetro en el query.**
 
 	- **Entrada:** ausencia de alguno de los parámetros necesarios para la extracción y creación del FASTA.
 
@@ -117,21 +142,4 @@ Error: Peak file missing as a parameter
 Error: FASTA file missing as a parameter
 # Falta el directorio de salida
 Error: Output directory missing as a parameter
-```
-
-7. **Caso: Valor de `Peak_end` sea mayor a `Peak_start`.**
-
-	- **Entrada:**
-	
-		- Archivo de picos con un `Peak_start` menor a `Peak_end`.
-		- Archivo FASTA del genoma.
-		- Directorio de salida.
-
-	- **Esperado:** `Warning: The peak start or end is not correct`.
-
-```py
-mk_fasta_from_peaks.py -i peak_file.txt -g Ecoli.fna -o fasta_peaks/
-```
-```
-Warning: The peak start or end is not correct
 ```
