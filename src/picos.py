@@ -20,15 +20,15 @@ def slicing_sec(genoma: str,peak_start: int,peak_end: int) -> str:
     """
     Extrae una subsecuencia del genoma entre dos coordenadas específicas (inclusive).
 
-    Args:
+    PARÁMETROS:
         genoma (str): Genoma completo cargado como una cadena de texto.
         peak_start (int): Posición inicial del pico.
         peak_end (int): Posición final del pico.
 
-    Returns:
+    RETURNS:
         str: Subcadena del genoma correspondiente al intervalo [peak_start, peak_end].
 
-    Raises:
+    RAISES:
         ValueError: Si el intervalo especificado no corresponde a una secuencia válida dentro del genoma.
     """
 
@@ -41,15 +41,15 @@ def slicing_sec(genoma: str,peak_start: int,peak_end: int) -> str:
     
     return sec
 
-def extraer_secuencias(peaks_data: dict,genoma: str) -> dict:
+def extraer_secuencias(peaks_data: dict[str, list[tuple[int, int]]], genoma: str) -> dict[str, list[str]]:
     """
     Extrae las secuencias correspondientes a los picos de unión para cada TF.
 
-    Args:
+    PARÁMETROS:
         peaks_data (dict): Diccionario con claves de nombre de TF (str) y valores como listas de tuplas (peak_start, peak_end).
         genoma (str): Genoma completo cargado como una cadena de texto.
 
-    Returns:
+    RETURNS:
         dict: Diccionario con claves de nombre de TF (str) y valores como listas de secuencias (str) correspondientes a sus picos.
     """
 

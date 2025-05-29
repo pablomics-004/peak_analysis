@@ -24,9 +24,9 @@ Versión: 1.0.3
 Fecha: 16-05-2025
 """
 
-import argparse as ap
+import argparse as ap # Argumentos desde línea de comandos
 
-def parseo():
+def parseo() -> ap.Namespace:
     """
     Procesa y devuelve los argumentos ingresados por el usuario en la línea de comandos.
 

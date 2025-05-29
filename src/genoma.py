@@ -9,6 +9,7 @@ Este módulo contiene funciones para:
 
 Módulos requeridos:
 
+- pandas: Para leer el archivo tsv con los picos.
 - os: Para verificar rutas de archivos y carpetas en el sistema operativo.
   
 Funciones:
@@ -26,20 +27,20 @@ Versión: 2.0.3
 Autor: Pablo Salazar Méndez
 Fecha: 29-05-2025
 """
-import pandas as pd
-import os
+import pandas as pd # Lectura de tsv
+import os # Interactuar con el sistema operativo
 
 def cargar_genoma(fasta_ruta: str) -> str:
     """
     Lee un archivo FASTA y devuelve la secuencia genómica como una única cadena de texto.
 
-    Args:
+    PARÁMETROS:
         fasta_ruta (str): Ruta absoluta del archivo FASTA con el genoma.
 
-    Returns:
+    RETURNS:
         str: Genoma representado como una sola cadena (sin encabezados).
 
-    Raises:
+    RAISES:
         FileNotFoundError: Si no se encuentra el archivo FASTA en la ruta proporcionada.
         ValueError: Si el archivo no tiene el formato FASTA correcto o está vacío.
         RuntimeError: Si ocurre un error al leer el archivo.
@@ -74,7 +75,7 @@ def cargar_genoma(fasta_ruta: str) -> str:
     except OSError as e:
         raise RuntimeError(f'Error al leer el archivo FASTA: {fasta_ruta}') from e
 
-def leer_archivo_picos(peaks_ruta: str) -> dict:
+def leer_archivo_picos(peaks_ruta: str) -> dict[str, list[tuple[int, int]]]:
     """
     Lee un archivo tabulado con información de picos de unión de TFs y retorna un diccionario con los intervalos.
 
@@ -83,13 +84,13 @@ def leer_archivo_picos(peaks_ruta: str) -> dict:
     - 'Peak_start': posición inicial del pico.
     - 'Peak_end': posición final del pico.
 
-    Args:
+    PARÁMETROS:
         peaks_ruta (str): Ruta al archivo de picos (formato TSV o TXT tabulado).
 
-    Returns:
+    RETURNS:
         dict: Diccionario con clave el nombre del TF y valor una lista de tuplas (peak_start, peak_end).
 
-    Raises:
+    RAISES:
         FileNotFoundError: Si no se encuentra el archivo.
         ValueError: Si falta alguno de los campos obligatorios o si las coordenadas son inválidas.
         RuntimeError: Si ocurre un error al leer el archivo.

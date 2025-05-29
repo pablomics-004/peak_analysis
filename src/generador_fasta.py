@@ -6,41 +6,42 @@ Este módulo permite tomar un diccionario con listas de secuencias por TF y gene
 
 Cada archivo contendrá múltiples entradas FASTA, una por cada secuencia asociada a ese TF.
 
-Módulos requeridos:
+MÓDULOS REQUERIDOS:
 
 - os: Para verificar y construir rutas de archivos en el sistema operativo.
 
-Funciones:
+FUNCIONES:
 
 - fasta_por_tf(dic_tf, carp_salida): Exporta archivos FASTA por TF en el directorio indicado.
 
-Uso:
+USO:
 
     fasta_por_tf(diccionario_tf_secuencias, "./output")
 
-Versión: 1.0.0  
+Versión: 1.0.4  
 Autor: Pablo Salazar Méndez 
 Fecha: 15-05-2025
 """
 
-import os
-ruta_actual = os.getcwd()
+import os # Interactuar con el sistema operativo
+
+ruta_actual = os.getcwd() # Ruta opcional en ausencia de una dada por el usuario
 
 def fasta_por_tf(dic_tf: dict,carp_salida: str = ruta_actual):
     """
     Genera archivos FASTA (.fna) por cada TF usando las secuencias proporcionadas.
 
-    Args:
+    PARÁMETROS:
         dic_tf (dict): Diccionario con claves como nombres de TFs (str) y valores como listas de secuencias (str).
         carp_salida (str): Ruta del directorio donde se guardarán los archivos FASTA (por defecto es la actual).
 
-    Returns:
+    RETURNS:
         None. Se generan archivos en disco con extensión .fna, uno por TF.
 
-    Raises:
+    RAISES:
         NotADirectoryError: Si el directorio especificado no existe.
 
-    Formato de salida:
+    FORMATO DE SALIDA:
         Cada archivo tendrá líneas con encabezados tipo:
             >TF_nombre_peak=1_len=200
         Seguido por la secuencia correspondiente en la línea siguiente.
