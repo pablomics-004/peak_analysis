@@ -9,13 +9,13 @@
         -   Archivo de picos válido.
         -   Directorio de salida.
 
-    -   **Esperado:** `f"Error: No se encontró el archivo {ruta_archivo}"`
+    -   **Esperado:** `f"FileNotFoundError: Error: No se encontró el archivo: ruta_genoma/genoma.fa"`
     
     ```python
     main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
     ```
     ```
-    Error: No se encontró el archivo ruta/Ecoli.fna
+    FileNotFoundError: Error: No se encontró el archivo: /home/pablosm/Escritorio/LCG/2025-2/Python1/peak_analysis/doc/genoma.fasta
     ```
 
 2. **Caso: Archivo de picos no se encuentra.**
