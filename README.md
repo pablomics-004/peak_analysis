@@ -30,7 +30,7 @@ Disponible en formato FASTA.
 Desarrollar un programa que extraiga y compile las secuencias de picos para cada TF en archivos individuales en formato FASTA. Cada archivo representará un regulador específico.
 
 ```python
-python3 main.py -g ruta_genoma/Ecoli.txt -p ruta_picos/picos.tsv -s resultados/
+python3 src/main.py -g doc/E_coli_K12_MG1655_U00096.3.txt -p data/union_peaks_file.tsv -s results/
 ```
 
 ## Colaboración y Recursos

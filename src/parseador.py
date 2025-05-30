@@ -61,7 +61,7 @@ def parseo() -> ap.Namespace:
     parser.add_argument(
         '-s','--salida', 
         type=str, 
-        help='Ruta de salida de los archivos FASTA por TF'
+        help='Ruta de salida de los archivos FASTA por TF (por defecto se toma la actual)'
     )
 
     return parser.parse_args()
