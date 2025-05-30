@@ -95,14 +95,14 @@
         -   Archivo FASTA del genoma válido.
         -   Directorio de salida.
 
-    -   **Esperado:** `Error: El archivo no cuenta con alguno de los campos requeridos: {campos}`
+    -   **Esperado:** `RuntimeError: Error al procesar el archivo de picos: El archivo no cuenta con alguno de los campos requeridos: ['TF_name', 'Peak_start', 'Peak_end']`
 
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_sin_name.tsv -s resultados/
     ```
 
     ```python
-    Error: El archivo no cuenta con alguno de los campos requeridos: TF_name
+    RuntimeError: Error al procesar el archivo de picos: El archivo no cuenta con alguno de los campos requeridos: ['TF_name', 'Peak_start', 'Peak_end']
     ```
 7. **Caso: Valor de `Peak_start` sea mayor a `Peak_end`.**
 
@@ -112,13 +112,13 @@
 		- Archivo FASTA del genoma.
 		- Directorio de salida.
 
-	- **Esperado:** `"Existen filas con Peak_end menor que Peak_start."`.
+	- **Esperado:** `"RuntimeError: Error al procesar el archivo de picos: Existen filas con Peak_end menor que Peak_start"`.
 
     ```py
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_invert.tsv -s peak_analysis/results
     ```
     ```
-    Existen filas con Peak_end menor que Peak_start.
+    RuntimeError: Error al procesar el archivo de picos: Existen filas con Peak_end menor que Peak_start
     ```
 
 8. **Caso: Directorio de salida inexistente.**
@@ -132,10 +132,10 @@
 	 - **Esperado:**  `Error: La carpeta {carp_salida} no existe`
 
     ```py
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/union_peaks_file.tsv -s peak_analysis/directorio_inexistente
     ```
     ```
-    Error: La carpeta ruta_salida/ no existe
+    NotADirectoryError: La carpeta peak_analysis/directorio_inexistente no existe
     ```
 
 9. **Caso: Ausencia de algún parámetro en el query.**

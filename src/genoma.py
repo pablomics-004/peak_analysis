@@ -151,7 +151,7 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
         df['Peak_end'] = df['Peak_end'].astype(int)
 
         if (df['Peak_end'] < df['Peak_start']).any():
-            raise ValueError('Existen filas con Peak_end menor que Peak_start.')
+            raise ValueError('Existen filas con Peak_end menor que Peak_start')
 
         # Agrupar por TF y convertir a diccionario de listas de tuplas
         dicc_picos = (
