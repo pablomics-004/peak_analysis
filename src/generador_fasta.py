@@ -27,7 +27,7 @@ import os # Interactuar con el sistema operativo
 
 ruta_actual = os.getcwd() # Ruta opcional en ausencia de una dada por el usuario
 
-def fasta_por_tf(dic_tf: dict,carp_salida: str = ruta_actual) -> None:
+def fasta_por_tf(dic_tf: dict[str, list[str]],carp_salida: str = ruta_actual) -> None:
     """
     Genera archivos FASTA (.fna) por cada TF usando las secuencias proporcionadas.
 
