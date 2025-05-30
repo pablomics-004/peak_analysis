@@ -29,21 +29,15 @@ Disponible en formato FASTA.
 ### Generación de Archivos FASTA
 Desarrollar un programa que extraiga y compile las secuencias de picos para cada TF en archivos individuales en formato FASTA. Cada archivo representará un regulador específico.
 
-### Automatización del Análisis de Motivos
-Crear un script que automatice la ejecución del software `meme` para cada archivo FASTA generado, facilitando la identificación de motivos en los sitios de unión.
-
-### Ejemplo de Comando para `meme`
-
-```bash
-meme AraC_peaks.fasta -oc AraC/. -mod oops -nmotifs 1 -minw 14 -maxw 20 -bfile ../U00096.3.bfile -dna -maxsize 100000 -norand -seed 10
+```python
+python3 main.py -g ruta_genoma/Ecoli.txt -p ruta_picos/picos.tsv -s resultados/
 ```
 
 ## Colaboración y Recursos
 
-El proyecto será colaborativo, trabajando conjuntamente con un investigador que dispone de un servidor preparado para ejecutar el programa `meme`. Se compartirán los siguientes recursos con el colaborador:
+El proyecto pretende facilitar la materia prima para una futura adición del software `meme`:
 - Secuencias en formato FASTA de todos los TFs.
 - Archivo `U00096.3.fna`.
-- Script para la generación de archivos FASTA y la ejecución de `meme`.
 - URL del repositorio de GitHub donde se aloja el proyecto y el código, facilitando el feedback y las contribuciones de todos los colaboradores.
 
 ## Buenas Prácticas de Desarrollo
@@ -58,6 +52,5 @@ Para asegurar la calidad y mantenibilidad del software, el proyecto seguirá est
 ## Plan de Implementación
 
 1. **Desarrollo del Extractor de Secuencias**: Programación de la tarea que consiste en genera los archivos FASTA a partir del archivo de picos. Como es un proceso automatizado, todos la información requerida para ejecutar los programas debe ser por línea de comandos.
-2. **Automatización del Análisis con `meme`**: Scripting del proceso de ejecución del análisis de motivos para cada TF.
-3. **Integración y Pruebas**: Combinación de los módulos desarrollados y realización de pruebas integrales para asegurar la funcionalidad.
-4. **Despliegue y Capacitación**: Implementación del sistema en el servidor del colaborador y capacitación de usuarios sobre su uso.
+2. **Integración y Pruebas**: Combinación de los módulos desarrollados y realización de pruebas integrales para asegurar la funcionalidad.
+3. **Despliegue y Capacitación**: Implementación del sistema en el servidor del colaborador y capacitación de usuarios sobre su uso.
