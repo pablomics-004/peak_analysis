@@ -1,6 +1,6 @@
 # Proyecto de Automatización para la Identificación de Sitios de Unión de Factores de Transcripción en E. coli en experimentos de ChIP-Seq
 
-Fecha: 11/03/2024
+Fecha: 29/05/2025
 
 **Participantes:**
 

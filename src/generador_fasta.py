@@ -53,7 +53,7 @@ def fasta_por_tf(dic_tf: dict,carp_salida: str = ruta_actual):
     
     for tf,secuencias in dic_tf.items():
 
-        ruta_comp = os.path.join(carp_salida,tf + '.fna')
+        ruta_comp = os.path.join(carp_salida,tf + '.fa')
         pico = 0
 
         with open(ruta_comp, 'w') as fasta:
