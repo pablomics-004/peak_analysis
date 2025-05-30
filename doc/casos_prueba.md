@@ -46,11 +46,11 @@
     -   **Esperado:** `"ValueError: el archivo {picos_ruta} está vacío"`
 
     ```python
-    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_vacios.tsv -s results/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p test/picos_vacios.tsv -s results/
     ```
     
     ```
-    ValueError: El archivo data/picos_vacios.tsv está vacío
+    ValueError: El archivo test/picos_vacios.tsv está vacío
     ```
 
 4. **Caso: Archivo de picos con formato inválido (no TSV o CSV).**
@@ -64,10 +64,10 @@
     - **Esperado:** `"ValueError: Extensión inválida: se esperaba .tsv, .csv o .txt → data/picos.xlsx"`
 
     ```python
-    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos.xlsx -s results/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p test/picos.xlsx -s results/
     ```
     ```
-    ValueError: Extensión inválida: se esperaba .tsv, .csv o .txt → data/picos.xlsx
+    ValueError: Extensión inválida: se esperaba .tsv, .csv o .txt → test/picos.xlsx
     ```
 
 5. **Caso: El archivo de picos tiene encabezado pero ningún dato.**
@@ -81,10 +81,10 @@
     - **Esperado:** `f'El archivo de {picos_ruta} tiene encabezado pero ningún dato'`
 
     ```python
-    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_vacios.tsv -s results/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p test/picos_vacios.tsv -s results/
     ```
     ```
-    RuntimeError: Error al procesar el archivo de picos: El archivo de data/picos_vacios.tsv tiene encabezado pero ningún dato
+    RuntimeError: Error al procesar el archivo de picos: El archivo de test/picos_vacios.tsv tiene encabezado pero ningún dato
     ```
 
 6.  **Caso: El archivo de picos no cuenta con alguno de los campos requeridos (`TF_name`, `Peak_start`, `Peak_end`).**
@@ -98,7 +98,7 @@
     -   **Esperado:** `RuntimeError: Error al procesar el archivo de picos: El archivo no cuenta con alguno de los campos requeridos: ['TF_name', 'Peak_start', 'Peak_end']`
 
     ```python
-    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_sin_name.tsv -s resultados/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p test/picos_sin_name.tsv -s resultados/
     ```
 
     ```python
@@ -115,7 +115,7 @@
 	- **Esperado:** `"RuntimeError: Error al procesar el archivo de picos: Existen filas con Peak_end menor que Peak_start"`.
 
     ```py
-    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_invert.tsv -s peak_analysis/results
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p test/picos_invert.tsv -s peak_analysis/results
     ```
     ```
     RuntimeError: Error al procesar el archivo de picos: Existen filas con Peak_end menor que Peak_start
