@@ -48,7 +48,7 @@ def cargar_genoma(fasta_ruta: str) -> str:
 
     # Verificando la ruta
     if not os.path.isfile(fasta_ruta):
-        raise FileNotFoundError(f'Error: No se encontró el archivo: {fasta_ruta}')
+        raise FileNotFoundError(f'No se encontró el archivo: {fasta_ruta}')
 
     try:
 
@@ -125,16 +125,16 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
     """
 
     if not os.path.isfile(picos_ruta):
-        raise FileNotFoundError(f'Error: no se encontró el archivo {picos_ruta}')
+        raise FileNotFoundError(f'No se encontró el archivo {picos_ruta}')
     
     # Verificar que el archivo no esté vacío
     if not os.path.getsize(picos_ruta):
-        raise ValueError(f'Error: el archivo {picos_ruta} está vacío')
+        raise ValueError(f'El archivo {picos_ruta} está vacío')
 
     # Verificar que el archivo sea tsv o cvs
     sep = detectar_sep(picos_ruta)
     if not sep:
-        raise ValueError('Error: Formato de archivo inválido, se esperaba .tsv o .csv')
+        raise ValueError('Formato de archivo inválido, se esperaba .tsv o .csv')
     
     campos = ['TF_name', 'Peak_start', 'Peak_end']
 
@@ -144,11 +144,11 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
 
         # Verificar que el archivo tenga más que solo el encabezado
         if df.empty():
-            raise ValueError(f'Error: El archivo de {picos_ruta} tiene encabezado pero ningún dato')
+            raise ValueError(f'El archivo de {picos_ruta} tiene encabezado pero ningún dato')
 
         # Verificar columnas requeridas
         if not all(col in df.columns for col in campos):
-            raise ValueError(f'Error: El archivo no cuenta con alguno de los campos requeridos: {campos}')
+            raise ValueError(f'El archivo no cuenta con alguno de los campos requeridos: {campos}')
 
         # Convertir a enteros y verificar coordenadas
         df['Peak_start'] = df['Peak_start'].astype(int)
