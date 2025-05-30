@@ -142,6 +142,10 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
         # Leer archivo con pandas
         df = pd.read_csv(picos_ruta, sep=sep)
 
+        # Verificar que el archivo tenga más que solo el encabezado
+        if df.empty():
+            raise ValueError(f'Error: El archivo de {picos_ruta} tiene encabezado pero ningún dato')
+
         # Verificar columnas requeridas
         if not all(col in df.columns for col in campos):
             raise ValueError(f'Error: El archivo no cuenta con alguno de los campos requeridos: {campos}')

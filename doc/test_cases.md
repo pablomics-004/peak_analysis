@@ -70,7 +70,24 @@
     Error: Formato de archivo inválido, se esperaba .tsv o .csv
     ```
 
-5.  **Caso: El archivo de picos no cuenta con alguno de los campos requeridos (`TF_name`, `Peak_start`, `Peak_end`).**
+5. **Caso: El archivo de picos tiene encabezado pero ningún dato.**
+
+    - **Entradas:**
+
+        -   Archivo de picos con encabezado únicamente.
+        -   Archivo FASTA del genoma válido.
+        -   Directorio de salida.
+
+    - **Esperado:** `f'Error: El archivo de {picos_ruta} tiene encabezado pero ningún dato'`
+
+    ```python
+    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    ```
+    ```
+    Error: El archivo de ruta/archivo_picos.tsv tiene encabezado pero ningún dato
+    ```
+
+6.  **Caso: El archivo de picos no cuenta con alguno de los campos requeridos (`TF_name`, `Peak_start`, `Peak_end`).**
     
     -   **Entradas:**
 
@@ -87,7 +104,7 @@
     ```python
     Error: El archivo no cuenta con alguno de los campos requeridos: TF_name
     ```
-6. **Caso: Valor de `Peak_start` sea mayor a `Peak_end`.**
+7. **Caso: Valor de `Peak_start` sea mayor a `Peak_end`.**
 
 	- **Entradas:**
 	
@@ -104,7 +121,7 @@
     Existen filas con Peak_end menor que Peak_start.
     ```
 
-7. **Caso: Directorio de salida inexistente.**
+8. **Caso: Directorio de salida inexistente.**
 
 	 - **Entradas:**
 		 
@@ -121,7 +138,7 @@
     Error: La carpeta ruta_salida/ no existe
     ```
 
-8. **Caso: Ausencia de algún parámetro en el query.**
+9. **Caso: Ausencia de algún parámetro en el query.**
 
 	- **Entradas:** ausencia de alguno de los parámetros necesarios para la extracción y creación del FASTA.
 
