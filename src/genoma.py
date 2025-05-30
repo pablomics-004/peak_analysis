@@ -84,7 +84,6 @@ def detectar_sep(picos_ruta: str) -> str | None:
 
     RETURN:
         str: Indica el separador que tiene el archivo.
-        None en caso de que no haya '\t' o ',' como separadores.
     """
 
     # Primeras cinco líneas
@@ -94,12 +93,7 @@ def detectar_sep(picos_ruta: str) -> str | None:
     tab = sum(l.count('\t') for l in lineas)
     coma = sum(l.count(',') for l in lineas)
 
-    if tab > coma:
-        return '\t'
-    elif coma > tab:
-        return ','
-    else:
-        return None # Error en la función leer_archivo_picos()
+    return '\t' if tab > coma else ','
 
 def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
     """
@@ -128,14 +122,16 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
         raise FileNotFoundError(f'No se encontró el archivo {picos_ruta}')
     
     # Verificar que el archivo no esté vacío
-    if not os.path.getsize(picos_ruta):
+    if os.path.getsize(picos_ruta) == 0:
         raise ValueError(f'El archivo {picos_ruta} está vacío')
 
     # Verificar que el archivo sea tsv o cvs
+    extensiones_validas = ('.tsv', '.csv', '.txt')
+    if not picos_ruta.lower().endswith(extensiones_validas):
+        raise ValueError(f'Extensión inválida: se esperaba .tsv, .csv o .txt → {picos_ruta}')
+
     sep = detectar_sep(picos_ruta)
-    if not sep:
-        raise ValueError('Formato de archivo inválido, se esperaba .tsv o .csv')
-    
+
     campos = ['TF_name', 'Peak_start', 'Peak_end']
 
     try:
@@ -143,7 +139,7 @@ def leer_archivo_picos(picos_ruta: str) -> dict[str, list[tuple[int, int]]]:
         df = pd.read_csv(picos_ruta, sep=sep)
 
         # Verificar que el archivo tenga más que solo el encabezado
-        if df.empty():
+        if df.empty:
             raise ValueError(f'El archivo de {picos_ruta} tiene encabezado pero ningún dato')
 
         # Verificar columnas requeridas

@@ -9,13 +9,13 @@
         -   Archivo de picos válido.
         -   Directorio de salida.
 
-    -   **Esperado:** `f"FileNotFoundError: Error: No se encontró el archivo: ruta_genoma/genoma.fa"`
+    -   **Esperado:** `f"FileNotFoundError: No se encontró el archivo: ruta_genoma/genoma.fa"`
     
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g doc/E_coli_K12_MG1655_U00096.3.txt -p data/union_peaks_file.tsv -s results/
     ```
     ```
-    FileNotFoundError: Error: No se encontró el archivo: /home/pablosm/Escritorio/LCG/2025-2/Python1/peak_analysis/doc/genoma.fasta
+    FileNotFoundError: No se encontró el archivo: doc/E_coli_K12_MG1655_U00096.3.txt
     ```
 
 2. **Caso: Archivo de picos no se encuentra.**
@@ -29,10 +29,10 @@
     - **Esperado:** `f"Error: no se encontró el archivo {picos_ruta}"`
 
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p doc/union_peaks_file.tsv -s results/
     ```
     ```
-    Error: no se encontró el archivo {picos_ruta}
+    FileNotFoundError: No se encontró el archivo doc/union_peaks_file.tsv
     ```
 
 3.  **Caso: Archivo de picos vacío.**
@@ -46,11 +46,11 @@
     -   **Esperado:** `"Error: el archivo {picos_ruta} está vacío"`
 
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_vacios.tsv -s results/
     ```
     
     ```
-    Error: el archivo ruta/archivo_picos.tsv está vacío
+    ValueError: El archivo data/picos_vacios.tsv está vacío
     ```
 
 4. **Caso: Archivo de picos con formato inválido (no TSV o CSV).**
@@ -78,13 +78,13 @@
         -   Archivo FASTA del genoma válido.
         -   Directorio de salida.
 
-    - **Esperado:** `f'Error: El archivo de {picos_ruta} tiene encabezado pero ningún dato'`
+    - **Esperado:** `f'El archivo de {picos_ruta} tiene encabezado pero ningún dato'`
 
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_vacios.tsv -s results/
     ```
     ```
-    Error: El archivo de ruta/archivo_picos.tsv tiene encabezado pero ningún dato
+    RuntimeError: Error al procesar el archivo de picos: El archivo de data/picos_vacios.tsv tiene encabezado pero ningún dato
     ```
 
 6.  **Caso: El archivo de picos no cuenta con alguno de los campos requeridos (`TF_name`, `Peak_start`, `Peak_end`).**
