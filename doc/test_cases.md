@@ -26,7 +26,7 @@
         - Ruta al archivo de picos inválida.
         - Directorio de salida.
     
-    - **Esperado:** `f"Error: no se encontró el archivo {picos_ruta}"`
+    - **Esperado:** `f"FileNotFoundError: no se encontró el archivo {picos_ruta}"`
 
     ```python
     python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p doc/union_peaks_file.tsv -s results/
@@ -43,7 +43,7 @@
         -   Archivo FASTA del genoma.
         -   Directorio de salida.
 
-    -   **Esperado:** `"Error: el archivo {picos_ruta} está vacío"`
+    -   **Esperado:** `"ValueError: el archivo {picos_ruta} está vacío"`
 
     ```python
     python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos_vacios.tsv -s results/
@@ -61,13 +61,13 @@
         - Archivo de picos inválido.
         - Ruta de salida válida.
 
-    - **Esperado:** `"Error: Formato de archivo inválido, se esperaba .tsv o .csv"`
+    - **Esperado:** `"ValueError: Extensión inválida: se esperaba .tsv, .csv o .txt → data/picos.xlsx"`
 
     ```python
-    main.py -g ruta/Ecoli.fna -p ruta/archivo_picos.tsv -s ruta_salida/
+    python3 src/main.py -g data/E_coli_K12_MG1655_U00096.3.txt -p data/picos.xlsx -s results/
     ```
     ```
-    Error: Formato de archivo inválido, se esperaba .tsv o .csv
+    ValueError: Extensión inválida: se esperaba .tsv, .csv o .txt → data/picos.xlsx
     ```
 
 5. **Caso: El archivo de picos tiene encabezado pero ningún dato.**
